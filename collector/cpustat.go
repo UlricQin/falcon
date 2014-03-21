@@ -7,6 +7,7 @@ import (
 	"io"
 	"strings"
 	"strconv"
+	"runtime"
 )
 
 type CpuSnapshoot struct {
@@ -20,6 +21,10 @@ type CpuSnapshoot struct {
 	Steal   uint64    // time spent in other OSes when running in a virtualized environment
 	Guest   uint64    // time spent running a virtual CPU for guest operating systems under the control of the Linux kernel.
 	Total   uint64    // total of all time fields
+}
+
+func CpuNum() int {
+	return runtime.NumCPU()
 }
 
 func CpuSnapShoot() (*CpuSnapshoot, error) {
