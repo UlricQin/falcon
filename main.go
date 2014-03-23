@@ -21,4 +21,10 @@ func printSystemInfo() {
 	for idx := range mountPoints{
 		fmt.Println(collector.BuildDeviceUsage(mountPoints[idx]))
 	}
+
+	netIfs, err := collector.NetIfs()
+	fmt.Println("NetIfs.err: ", err)
+	for _, netIf := range netIfs{
+		fmt.Println(netIf)
+	}
 }
