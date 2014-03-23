@@ -27,4 +27,6 @@ func printSystemInfo() {
 	for _, netIf := range netIfs{
 		fmt.Println(netIf)
 	}
+
+	fmt.Println(collector.MemInfo())
 }
