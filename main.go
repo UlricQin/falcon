@@ -18,13 +18,13 @@ func printSystemInfo() {
 	mountPoints, _ := collector.ListMountPoint()
 	fmt.Println(mountPoints)
 
-	for idx := range mountPoints{
+	for idx := range mountPoints {
 		fmt.Println(collector.BuildDeviceUsage(mountPoints[idx]))
 	}
 
 	netIfs, err := collector.NetIfs()
 	fmt.Println("NetIfs.err: ", err)
-	for _, netIf := range netIfs{
+	for _, netIf := range netIfs {
 		fmt.Println(netIf)
 	}
 
@@ -34,4 +34,6 @@ func printSystemInfo() {
 	fmt.Println("tcp6 ports: ", collector.ListenPorts("tcp6"))
 	fmt.Println("udp ports: ", collector.ListenPorts("udp"))
 	fmt.Println("udp6 ports: ", collector.ListenPorts("udp6"))
+
+	fmt.Println(collector.SystemUptime())
 }
