@@ -36,4 +36,9 @@ func printSystemInfo() {
 	fmt.Println("udp6 ports: ", collector.ListenPorts("udp6"))
 
 	fmt.Println(collector.SystemUptime())
+
+	diskStats, _ := collector.ListDiskStats()
+	for _, ds := range diskStats {
+		fmt.Println(ds)
+	}
 }
