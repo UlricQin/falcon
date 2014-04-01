@@ -18,10 +18,6 @@ type Meminfo struct {
 	SwapTotal uint64
 	SwapUsed  uint64
 	SwapFree  uint64
-	MemUsedPercent float64
-	MemFreePercent float64
-	SwapUsedPercent float64
-	SwapFreePercent float64
 }
 
 func MemInfo() (*Meminfo, error) {
@@ -75,10 +71,6 @@ func MemInfo() (*Meminfo, error) {
 	}
 	memInfo.MemUsed = memInfo.MemTotal - memInfo.MemFree
 	memInfo.SwapUsed = memInfo.SwapTotal - memInfo.SwapFree
-	memInfo.MemFreePercent = float64(memInfo.MemFree) * 100.0 / float64(memInfo.MemTotal)
-	memInfo.MemUsedPercent = float64(memInfo.MemUsed) * 100.0 / float64(memInfo.MemTotal)
-	memInfo.SwapFreePercent = float64(memInfo.SwapFree) * 100.0 / float64(memInfo.SwapTotal)
-	memInfo.SwapUsedPercent = float64(memInfo.SwapUsed) * 100.0 / float64(memInfo.SwapTotal)
 
 	return memInfo, nil
 }
