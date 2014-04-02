@@ -13,7 +13,6 @@ type Meminfo struct {
 	Buffers   uint64
 	Cached    uint64
 	MemTotal  uint64
-	MemUsed   uint64
 	MemFree   uint64
 	SwapTotal uint64
 	SwapUsed  uint64
@@ -69,7 +68,6 @@ func MemInfo() (*Meminfo, error) {
 			}
 		}
 	}
-	memInfo.MemUsed = memInfo.MemTotal - memInfo.MemFree
 	memInfo.SwapUsed = memInfo.SwapTotal - memInfo.SwapFree
 
 	return memInfo, nil
