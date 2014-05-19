@@ -3,11 +3,11 @@ package collector
 import (
 	"bufio"
 	"bytes"
+	"github.com/ulricqin/goutils/slicetool"
 	"io"
 	"io/ioutil"
 	"strconv"
 	"strings"
-	"github.com/ulricqin/goutils/slicetool"
 )
 
 var protocol_search = map[string]string{
@@ -39,7 +39,7 @@ func ListenPorts(protocol string) []int64 {
 		rawLine := string(lineBytes)
 		idx := strings.Index(rawLine, search)
 		if idx < 0 {
-			continue
+			break
 		}
 
 		portStr := rawLine[idx-4 : idx]
