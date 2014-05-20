@@ -30,11 +30,17 @@ func ListenPorts(protocol string) []int64 {
 	reader := bufio.NewReader(bytes.NewBuffer(contents))
 	search := protocol_search[protocol]
 
+    firstLine := true
 	for {
 		lineBytes, _, err := reader.ReadLine()
 		if err == io.EOF {
 			break
 		}
+
+        if firstLine {
+            firstLine = false
+            continue
+        }
 
 		rawLine := string(lineBytes)
 		idx := strings.Index(rawLine, search)
