@@ -2,10 +2,9 @@ package collector
 
 import (
 	"bufio"
-	"bytes"
 	"github.com/ulricqin/goutils/slicetool"
 	"io"
-	"io/ioutil"
+	"os"
 	"strconv"
 	"strings"
 )
@@ -22,25 +21,28 @@ func ListenPorts(protocol string) []int64 {
 	ret := []int64{}
 
 	procFile := "/proc/net/" + protocol
-	contents, err := ioutil.ReadFile(procFile)
+
+	f, err := os.Open(procFile)
 	if err != nil {
 		return ret
 	}
+	defer f.Close()
 
-	reader := bufio.NewReader(bytes.NewBuffer(contents))
 	search := protocol_search[protocol]
 
-    firstLine := true
+	reader := bufio.NewReader(f)
+
+	firstLine := true
 	for {
 		lineBytes, _, err := reader.ReadLine()
-		if err == io.EOF {
+		if err == io.EOF || err != nil {
 			break
 		}
 
-        if firstLine {
-            firstLine = false
-            continue
-        }
+		if firstLine {
+			firstLine = false
+			continue
+		}
 
 		rawLine := string(lineBytes)
 		idx := strings.Index(rawLine, search)
