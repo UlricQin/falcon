@@ -3,12 +3,10 @@ package collector
 import (
 	"bufio"
 	"bytes"
-	"fmt"
 	"io"
 	"io/ioutil"
 	"strings"
 	"syscall"
-	"time"
 )
 
 var FSTYPE_IGNORE = map[string]bool{
@@ -35,37 +33,13 @@ type DeviceUsageStruct struct {
 	InodesFreePercent float64
 }
 
-func syscallStatfs(path string) (*syscall.Statfs_t, error) {
-	fs := syscall.Statfs_t{}
-	err := syscall.Statfs(path, &fs)
-	if err != nil {
-		return nil, err
-	}
-	return &fs, nil
-}
-
 func BuildDeviceUsage(arr [3]string) (*DeviceUsageStruct, error) {
 	ret := &DeviceUsageStruct{FsSpec: arr[0], FsFile: arr[1], FsVfstype: arr[2]}
 
-	statfs_chan := make(chan *syscall.Statfs_t)
-	err_chan := make(chan error)
-	go func() {
-		tmp, e := syscallStatfs(arr[1])
-		if e != nil {
-			err_chan <- e
-		}
-		statfs_chan <- tmp
-	}()
-
-	fs := &syscall.Statfs_t{}
-
-	select {
-	case err_from_chan := <-err_chan:
-		return nil, err_from_chan
-	case statfs_from_chan := <-statfs_chan:
-		fs = statfs_from_chan
-	case <-time.After(time.Millisecond * 5):
-		return nil, fmt.Errorf("syscall.Statfs timeout")
+	fs := syscall.Statfs_t{}
+	err := syscall.Statfs(arr[1], &fs)
+	if err != nil {
+		return nil, err
 	}
 
 	// blocks
