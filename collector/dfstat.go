@@ -106,6 +106,8 @@ func ListMountPoint() ([][3]string, error) {
 
 		if strings.HasPrefix(fs_file, "/dev") ||
 			strings.HasPrefix(fs_file, "/sys") ||
+			strings.HasPrefix(fs_file, "/net") ||
+			strings.HasPrefix(fs_file, "/misc") ||
 			strings.HasPrefix(fs_file, "/proc") ||
 			strings.HasPrefix(fs_file, "/lib") {
 			continue
