@@ -19,6 +19,8 @@ type Meminfo struct {
 	SwapFree  uint64
 }
 
+var Multi uint64 = 1024
+
 func MemInfo() (*Meminfo, error) {
 	want := map[string]bool{
 		"Buffers:":   true,
@@ -54,17 +56,17 @@ func MemInfo() (*Meminfo, error) {
 			}
 			switch fieldName {
 			case "Buffers:":
-				memInfo.Buffers = val
+				memInfo.Buffers = val * Multi
 			case "Cached:":
-				memInfo.Cached = val
+				memInfo.Cached = val * Multi
 			case "MemTotal:":
-				memInfo.MemTotal = val
+				memInfo.MemTotal = val * Multi
 			case "MemFree:":
-				memInfo.MemFree = val
+				memInfo.MemFree = val * Multi
 			case "SwapTotal:":
-				memInfo.SwapTotal = val
+				memInfo.SwapTotal = val * Multi
 			case "SwapFree:":
-				memInfo.SwapFree = val
+				memInfo.SwapFree = val * Multi
 			}
 		}
 	}
