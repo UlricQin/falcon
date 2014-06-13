@@ -6,7 +6,8 @@ import (
 )
 
 func main() {
-	printSystemInfo()
+	// printSystemInfo()
+	fmt.Println(collector.ListenTcpPorts())
 }
 
 func printSystemInfo() {

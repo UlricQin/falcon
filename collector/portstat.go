@@ -2,6 +2,7 @@ package collector
 
 import (
 	"bufio"
+	"fmt"
 	"github.com/ulricqin/goutils/slicetool"
 	"io"
 	"os"
@@ -14,6 +15,89 @@ var protocol_search = map[string]string{
 	"tcp6": " 00000000000000000000000000000000:0000 0A",
 	"udp":  " 00000000:0000 07",
 	"udp6": " 00000000000000000000000000000000:0000 07",
+}
+
+func ListenTcpPorts() []int64 {
+	ret := []int64{}
+
+	procFile := "/proc/net/tcp"
+
+	f, err := os.Open(procFile)
+	if err != nil {
+		return ret
+	}
+	defer f.Close()
+
+	search := protocol_search["tcp"]
+
+	reader := bufio.NewReader(f)
+
+	// ignore the first line
+	lineBytes, _, err := reader.ReadLine()
+	if err == io.EOF || err != nil {
+		return []int64{}
+	}
+
+	// handle line:0
+	lineBytes, _, err = reader.ReadLine()
+	if err == io.EOF || err != nil {
+		return []int64{}
+	}
+
+	spaceCnt := 0
+	for _, b := range lineBytes {
+		if b == ' ' {
+			spaceCnt++
+		} else {
+			break
+		}
+	}
+
+	index := 32 + spaceCnt
+	if lineBytes[index] == 'A' {
+		rawLine := string(lineBytes)
+		fmt.Println(rawLine)
+		idx := strings.Index(rawLine, search)
+		if idx < 0 {
+			fmt.Println("not found")
+		} else {
+			fmt.Println("found")
+			portStr := rawLine[idx-4 : idx]
+			i, err := strconv.ParseInt(portStr, 16, 64)
+			if err != nil {
+				fmt.Println("parse int fail" + err.Error())
+			} else {
+				ret = append(ret, i)
+			}
+		}
+	}
+
+	for {
+		lineBytes, _, err = reader.ReadLine()
+		if err == io.EOF || err != nil {
+			break
+		}
+
+		if lineBytes[index] == 'A' {
+			rawLine := string(lineBytes)
+			fmt.Println(rawLine)
+			idx := strings.Index(rawLine, search)
+			if idx < 0 {
+				fmt.Println("not found")
+			} else {
+				fmt.Println("found")
+				portStr := rawLine[idx-4 : idx]
+				i, err := strconv.ParseInt(portStr, 16, 64)
+				if err != nil {
+					fmt.Println("parse int fail" + err.Error())
+				} else {
+					ret = append(ret, i)
+				}
+			}
+		}
+
+	}
+	return slicetool.SliceUniqueInt64(ret)
 }
 
 // protocol: ['tcp', 'tcp6', 'udp', 'udp6']
@@ -52,9 +136,9 @@ func ListenPorts(protocol string) []int64 {
 				continue
 			}
 
-            if protocol == "tcp6" {
-                continue
-            }
+			if protocol == "tcp6" {
+				continue
+			}
 
 			break
 		}
