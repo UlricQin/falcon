@@ -48,9 +48,14 @@ func ListenPorts(protocol string) []int64 {
 		idx := strings.Index(rawLine, search)
 		if idx < 0 {
 			// if protocol is tcp. 03 maybe in the middle of 0A
-			// if protocol == "tcp" && strings.Index(rawLine, " 03 ") > 0 {
-			// 	continue
-			// }
+			if protocol == "tcp" && strings.Index(rawLine, " 03 ") > 0 {
+				continue
+			}
+
+            if protocol == "tcp6" {
+                continue
+            }
+
 			break
 		}
 
