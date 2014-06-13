@@ -2,9 +2,11 @@ package collector
 
 import (
 	"bufio"
+	"bytes"
 	"fmt"
 	"github.com/ulricqin/goutils/slicetool"
 	"io"
+	"io/ioutil"
 	"os"
 	"strconv"
 	"strings"
@@ -21,16 +23,17 @@ func ListenTcpPorts() []int64 {
 	ret := []int64{}
 
 	procFile := "/proc/net/tcp"
-
-	f, err := os.Open(procFile)
+	contents, err := ioutil.ReadFile(procFile)
 	if err != nil {
-		return ret
+		fmt.Println("read /proc/net/tcp fail, err:", err)
+		return nil
 	}
-	defer f.Close()
+
+	reader := bufio.NewReader(bytes.NewBuffer(contents))
 
 	search := protocol_search["tcp"]
 
-	reader := bufio.NewReader(f)
+	lineCnt := 0
 
 	// ignore the first line
 	lineBytes, _, err := reader.ReadLine()
@@ -78,6 +81,8 @@ func ListenTcpPorts() []int64 {
 			break
 		}
 
+		lineCnt++
+
 		if lineBytes[index] == 'A' {
 			rawLine := string(lineBytes)
 			fmt.Println(rawLine)
@@ -97,6 +102,7 @@ func ListenTcpPorts() []int64 {
 		}
 
 	}
+	fmt.Println("line cnt:", lineCnt)
 	return slicetool.SliceUniqueInt64(ret)
 }
 
