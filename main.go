@@ -6,8 +6,7 @@ import (
 )
 
 func main() {
-	// printSystemInfo()
-	fmt.Println(collector.ListenTcpPorts())
+	fmt.Println("listening ports: ", collector.ListenPorts())
 }
 
 func printSystemInfo() {
@@ -31,10 +30,7 @@ func printSystemInfo() {
 
 	fmt.Println(collector.MemInfo())
 
-	fmt.Println("tcp ports: ", collector.ListenPorts("tcp"))
-	fmt.Println("tcp6 ports: ", collector.ListenPorts("tcp6"))
-	fmt.Println("udp ports: ", collector.ListenPorts("udp"))
-	fmt.Println("udp6 ports: ", collector.ListenPorts("udp6"))
+	fmt.Println("listening ports: ", collector.ListenPorts())
 
 	fmt.Println(collector.SystemUptime())
 
