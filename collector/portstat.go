@@ -5,6 +5,7 @@ import (
 	"bytes"
 	log "github.com/ulricqin/goutils/logtool"
 	"github.com/ulricqin/goutils/systool"
+	"github.com/ulricqin/goutils/slicetool"
 	"io"
 	"strconv"
 	"strings"
@@ -51,6 +52,8 @@ func ListenPorts() []int64 {
 		}
 
 	}
+
+    ret = slicetool.SliceUniqueInt64(ret)
 
 	log.Info("listening ports: %v", ret)
 	return ret
