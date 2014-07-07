@@ -6,10 +6,10 @@ import (
 )
 
 func main() {
-    ps, _ := collector.AllProcs()
-    for i, p := range ps {
-        fmt.Println(i, p.Name, p.State, p.Pid, p.Cmdline)
-    }
+	ps, _ := collector.AllProcs()
+	for i, p := range ps {
+		fmt.Println(i, p.Name, p.State, p.Pid, p.Cmdline)
+	}
 }
 
 func printSystemInfo() {

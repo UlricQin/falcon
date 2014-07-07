@@ -16,4 +16,3 @@ func KernelMaxProc() (uint64, error) {
 func KernelHostname() (string, error) {
 	return os.Hostname()
 }
-

@@ -1,9 +1,9 @@
 package collector
 
 import (
+	"github.com/ulricqin/goutils/filetool"
 	"strconv"
 	"strings"
-	"github.com/ulricqin/goutils/filetool"
 )
 
 type Loadavg struct {
@@ -34,4 +34,3 @@ func LoadAvg() (*Loadavg, error) {
 
 	return &loadAvg, nil
 }
-
