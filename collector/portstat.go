@@ -36,13 +36,20 @@ func ListenPorts() []int64 {
 		}
 
 		arr := strings.Fields(string(line))
-		if len(arr) != 4 {
+		arrlen := len(arr)
+
+		if arrlen != 4 && arrlen != 5 {
 			log.Error("output of [ss -n -l] format error")
 			continue
 		}
 
-		location := strings.LastIndex(arr[2], ":")
-		port := arr[2][location+1:]
+		ci := 2
+		if arrlen == 5 {
+			ci = 3
+		}
+
+		location := strings.LastIndex(arr[ci], ":")
+		port := arr[ci][location+1:]
 
 		if p, e := strconv.ParseInt(port, 10, 64); e != nil {
 			log.Error("parse port to int64 fail: %s", e)
