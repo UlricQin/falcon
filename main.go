@@ -6,6 +6,10 @@ import (
 )
 
 func main() {
+    fmt.Println("listening ports: ", collector.ListenPorts())
+}
+
+func main1() {
 	ps, _ := collector.AllProcs()
 	for i, p := range ps {
 		fmt.Println(i, p.Name, p.State, p.Pid, p.Cmdline)
