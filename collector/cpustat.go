@@ -3,6 +3,7 @@ package collector
 import (
 	"bufio"
 	"bytes"
+	"fmt"
 	"io"
 	"io/ioutil"
 	"runtime"
@@ -25,6 +26,36 @@ type CpuSnapshoot struct {
 
 func CpuNum() int {
 	return runtime.NumCPU()
+}
+
+func MHz() (mhz string, err error) {
+    var contents []byte
+	contents, err = ioutil.ReadFile("/proc/cpuinfo")
+	if err != nil {
+        return
+	}
+
+    reader := bufio.NewReader(bytes.NewBuffer(contents))
+
+    var line []byte
+    for {
+        line, _, err = reader.ReadLine()
+        if err == io.EOF {
+            return
+        }
+
+        li := string(line)
+        if !strings.Contains(li, "MHz") {
+            continue
+        }
+
+        arr := strings.Split(li, ":")
+        if len(arr) != 2 {
+            return "", fmt.Errorf("file content format error")
+        }
+
+        return strings.TrimSpace(arr[1]), nil
+    }
 }
 
 func CpuSnapShoot() (*CpuSnapshoot, error) {

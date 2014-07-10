@@ -6,7 +6,7 @@ import (
 )
 
 func main() {
-    fmt.Println("listening ports: ", collector.ListenPorts())
+    fmt.Println(collector.MHz())
 }
 
 func main1() {

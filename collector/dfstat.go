@@ -96,7 +96,7 @@ func ListMountPoint() ([][3]string, error) {
 		fs_file := fields[1]
 		fs_vfstype := fields[2]
 
-		if fs_spec == "none" {
+		if fs_spec == "none" || fs_spec == "nodev" {
 			continue
 		}
 
