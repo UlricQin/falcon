@@ -6,7 +6,9 @@ import (
 )
 
 func main() {
-    fmt.Println(collector.MHz())
+    fmt.Println(collector.Ext("TcpExt"))
+    fmt.Println("----------------------")
+    fmt.Println(collector.Ext("IpExt"))
 }
 
 func main1() {
