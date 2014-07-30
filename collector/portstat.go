@@ -12,7 +12,7 @@ import (
 )
 
 func ListenPorts() []int64 {
-	bs, err := systool.CmdOutBytes("ss", "-n", "-l")
+	bs, err := systool.CmdOutBytes("ss", "-n", "-l", "-t")
 	if err != nil {
 		log.Error("ss -n -l exec fail: %s", err)
 		return []int64{}
@@ -39,7 +39,7 @@ func ListenPorts() []int64 {
 		arrlen := len(arr)
 
 		if arrlen != 4 && arrlen != 5 {
-			log.Error("output of [ss -n -l] format error")
+			log.Error("output of [ss -n -l -t] format error")
 			continue
 		}
 
