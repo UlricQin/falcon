@@ -6,9 +6,7 @@ import (
 )
 
 func main() {
-    fmt.Println(collector.Ext("TcpExt"))
-    fmt.Println("----------------------")
-    fmt.Println(collector.Ext("IpExt"))
+	fmt.Println(collector.KernelAllocateFiles())
 }
 
 func main1() {
