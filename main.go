@@ -9,7 +9,7 @@ func main() {
 	fmt.Println(collector.KernelAllocateFiles())
 }
 
-func main1() {
+func main3() {
 	ps, _ := collector.AllProcs()
 	for i, p := range ps {
 		fmt.Println(i, p.Name, p.State, p.Pid, p.Cmdline)
