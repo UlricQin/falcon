@@ -6,6 +6,10 @@ import (
 )
 
 func main() {
+	fmt.Println(collector.SocketStatSummary())
+}
+
+func main2() {
 	fmt.Println(collector.KernelAllocateFiles())
 	fmt.Println(collector.CpuSnapShoot())
 }
