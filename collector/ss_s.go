@@ -47,6 +47,7 @@ func SocketStatSummary() (m map[string]uint64) {
 				if fields[0] == "timewait" {
 					timewait_arr := strings.Split(fields[1], "/")
 					m["timewait"], _ = strconv.ParseUint(timewait_arr[0], 10, 64)
+					m["slabinfo.timewait"], _ = strconv.ParseUint(timewait_arr[1], 10, 64)
 					continue
 				}
 				m[fields[0]], _ = strconv.ParseUint(fields[1], 10, 64)
