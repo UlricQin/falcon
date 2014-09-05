@@ -7,6 +7,7 @@ import (
 
 func main() {
 	fmt.Println(collector.KernelAllocateFiles())
+	fmt.Println(collector.CpuSnapShoot())
 }
 
 func main3() {
