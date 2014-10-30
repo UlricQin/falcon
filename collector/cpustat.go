@@ -75,15 +75,17 @@ func CpuSnapShoot() (*CpuSnapshoot, error) {
 		}
 
 		fields := strings.Fields(string(line))
-		fieldName := fields[0]
-		if fieldName == "cpu" {
-			parseCPUFields(fields, s)
-		}
+		if len(fields) > 0 {
+			fieldName := fields[0]
+			if fieldName == "cpu" {
+				parseCPUFields(fields, s)
+			}
 
-		if fieldName == "ctxt" {
-			s.Switches, err = strconv.ParseUint(fields[1], 10, 64)
-			if err != nil {
-				continue
+			if fieldName == "ctxt" {
+				s.Switches, err = strconv.ParseUint(fields[1], 10, 64)
+				if err != nil {
+					continue
+				}
 			}
 		}
 	}
